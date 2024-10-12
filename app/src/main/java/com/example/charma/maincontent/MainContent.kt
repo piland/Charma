@@ -1,7 +1,7 @@
-package com.example.charma.maincontent
-
+import android.app.Activity
 import android.content.Intent
-import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,34 +26,50 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.charma.R
 import com.example.charma.ui.theme.CharmaTheme
 import com.example.charma.ui.theme.UNCCGreen
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.rememberCameraPositionState
 
 
 @Composable
-fun MainContent(name: String, modifier: Modifier = Modifier)
-{
-
+fun MainContent(name: String, modifier: Modifier = Modifier) {
     // Set initial camera position for Google Maps
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(LatLng(35.3076, -80.7351), 16f)
     }
 
-    // Context to be used for dialing
+    // Context to be used for dialing and launching intents
     val context = LocalContext.current
 
     // State to toggle emergency options visibility
     var showEmergencyOptions by remember { mutableStateOf(false) }
 
-    Box(modifier = Modifier.fillMaxSize())
-    {
+    // Google Places Autocomplete launcher
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val intent = result.data
+            intent?.let {
+                val place = Autocomplete.getPlaceFromIntent(intent)
+                val latLng = place.latLng
+                latLng?.let {
+                    // Update map camera to the selected place
+                    cameraPositionState.position = CameraPosition.fromLatLngZoom(latLng, 16f)
+                }
+            }
+        }
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
         // Google Map Composable
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
@@ -62,68 +78,17 @@ fun MainContent(name: String, modifier: Modifier = Modifier)
 
         // UI elements overlaid on top of the map
         Column(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Bottom
-        )
-        {
+        ) {
             Spacer(modifier = Modifier.weight(1f))
 
-            // Emergency Options
-            if (showEmergencyOptions)
-            {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 4.dp, end = 4.dp, bottom = 8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                )
-                {
-                    // 911 Button
-                    Button(
-                        onClick =
-                        {
-                            // Intent to call 911
-                            val callIntent = Intent(Intent.ACTION_DIAL)
-                            callIntent.data = Uri.parse("tel:911")
-                            context.startActivity(callIntent)
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-
-                        // Set to red for 911
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Red
-                        )
-                    )
-                    {
-                        Text(text = "Call 911")
-                    }
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    // Campus Police Button
-                    Button(
-                        onClick =
-                        {
-                            // Intent to call campus police
-                            val callIntent = Intent(Intent.ACTION_DIAL)
-                            callIntent.data = Uri.parse("tel:7046872200")
-                            context.startActivity(callIntent)
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = UNCCGreen
-                        )
-                    )
-                    {
-                        Text(text = "Call Campus Police")
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
+            // Conditionally show emergency options if showEmergencyOptions is true
+            if (showEmergencyOptions) {
+                EmergencyOptions()
             }
 
-            // Main action buttons (Search, Favorites, Emergencies)
+            // Emergency Options and main action buttons (Search, Favorites, Emergencies)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -131,7 +96,13 @@ fun MainContent(name: String, modifier: Modifier = Modifier)
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 Button(
-                    onClick = { /* TODO: Handle Search action */ },
+                    onClick = {
+                        // Trigger the autocomplete intent for searching places
+                        val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
+                        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                            .build(context)
+                        launcher.launch(intent)
+                    },
                     modifier = Modifier
                         .weight(1f)
                         .padding(horizontal = 2.dp),
@@ -170,6 +141,8 @@ fun MainContent(name: String, modifier: Modifier = Modifier)
                 }
             }
         }
+
+        // UNCC Logo at the top-left corner
         Image(
             painter = painterResource(id = R.drawable.uncclogo),
             contentDescription = "UNCC Logo",
@@ -181,7 +154,41 @@ fun MainContent(name: String, modifier: Modifier = Modifier)
     }
 }
 
-@Preview(showBackground = true)
+@Composable
+fun EmergencyOptions() {
+    // UI for emergency options
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(
+            onClick = {
+                // TODO: Handle 911 action
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+        ) {
+            Text("Call 911")
+        }
+
+        Button(
+            onClick = {
+                // TODO: Handle Campus Police action
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = UNCCGreen)
+        ) {
+            Text("Call Campus Police")
+        }
+    }
+}
+
 @Composable
 fun MainContentPreview() {
     CharmaTheme {
