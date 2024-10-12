@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         if (!Places.isInitialized()) {
-            Places.initialize(applicationContext, "AIzaSyA0bcQSyrgWDwrgHLHlrJNl3Qkl6aZ7Sl0")
+            Places.initialize(applicationContext, "API KEY HERE")
         }
 
         enableEdgeToEdge()
