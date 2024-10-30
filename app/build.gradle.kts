@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.places)
     implementation(libs.maps.compose)
     implementation(libs.play.services.maps)
     implementation(libs.firebase.database)
@@ -76,6 +77,18 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.okhttp)
     implementation(libs.commons.cli)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.androidx.lifecycle.runtime.ktx.v251)
+    implementation(libs.maps.compose.widgets)
+
+    implementation("androidx.appcompat:appcompat:1.4.1")
+    implementation("androidx.appcompat:appcompat-resources:1.4.1")
+
+    implementation("io.coil-kt:coil-compose:2.1.0") {
+        exclude(group = "androidx.appcompat")
+        exclude(group = "androidx.appcompat", module = "appcompat-resources")
+    }
 
 
     runtimeOnly(libs.duo.client)

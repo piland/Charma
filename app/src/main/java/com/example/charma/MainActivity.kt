@@ -1,5 +1,6 @@
 package com.example.charma
 
+import MainContent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -17,7 +18,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.example.charma.maincontent.MainContent
 import com.example.charma.popup.RegisterPopup
 import com.example.charma.splashscreen.LoginScreen
 import com.example.charma.ui.theme.CharmaTheme
