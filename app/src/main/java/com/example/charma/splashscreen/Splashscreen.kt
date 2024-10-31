@@ -37,7 +37,6 @@ import com.example.charma.ui.theme.NinerGold
 import com.example.charma.ui.theme.QuartzWhite
 import com.example.charma.ui.theme.UNCCGreen
 
-
 // region Login
 @Composable
 fun LoginScreen(onLoginSuccess: (String, String) -> Unit, onRegisterClick: () -> Unit, createAccount: (String, String) -> Unit) {
