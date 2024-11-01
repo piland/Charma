@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.example.charma"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.charma"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -64,8 +64,7 @@ dependencies {
     implementation(libs.maps.compose)
     implementation(libs.play.services.maps)
     implementation(libs.firebase.database)
-    implementation("com.google.firebase:firebase-database:21.0.0")
-    implementation("com.google.firebase:firebase-auth-ktx:21.0.1")
+    implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -76,6 +75,12 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.okhttp)
     implementation(libs.commons.cli)
+    implementation(libs.retrofit)
+    implementation(libs.gson)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    implementation(libs.core);
+    implementation(libs.androidx.lifecycle.viewmodel.compose.v287)
 
 
     runtimeOnly(libs.duo.client)
