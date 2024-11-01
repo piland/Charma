@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.example.charma"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.charma"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -78,6 +78,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.gson)
     implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    implementation(libs.core);
+    implementation(libs.androidx.lifecycle.viewmodel.compose.v287)
 
 
     runtimeOnly(libs.duo.client)
