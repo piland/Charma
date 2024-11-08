@@ -78,6 +78,11 @@ fun MainContent(name: String, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
     var userLocation by remember { mutableStateOf(LatLng(35.3076, -80.7351)) }
+
+    if (!Places.isInitialized()) {
+        Places.initialize(context.applicationContext, context.getGoogleApiKey())
+    }
+
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -90,10 +95,6 @@ fun MainContent(name: String, modifier: Modifier = Modifier) {
 
     LaunchedEffect(Unit) {
         permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-
-        if (!Places.isInitialized()) {
-            Places.initialize(context.applicationContext, context.getGoogleApiKey())
-        }
     }
 
     val cameraPositionState = rememberCameraPositionState {
@@ -109,12 +110,20 @@ fun MainContent(name: String, modifier: Modifier = Modifier) {
     var shouldDrawRoute by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
 
+    val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS)
+
+    val autocompleteIntent = remember(context) {
+        context?.let {
+            Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields).build(it)
+        }
+    }
+
     LaunchedEffect(Unit) {
         val loadedFavorites = loadFavorites(context)
         favoritesList.addAll(loadedFavorites)
     }
 
-    val launcher = rememberLauncherForActivityResult(
+    val autocompleteIntentLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -260,10 +269,7 @@ fun MainContent(name: String, modifier: Modifier = Modifier) {
                 ) {
                     Button(
                         onClick = {
-                            val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS)
-                            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
-                                .build(context)
-                            launcher.launch(intent)
+                            autocompleteIntent?.let { autocompleteIntentLauncher.launch(it) }
                         },
                         modifier = Modifier
                             .weight(1f)
@@ -547,7 +553,11 @@ fun WeatherWidget(latitude: Double, longitude: Double) {
 
 suspend fun getDirections(context: Context, origin: LatLng, destination: LatLng): List<LatLng> {
     val apiKey = context.getGoogleApiKey()
-    val url = "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${destination.latitude},${destination.longitude}&key=$apiKey"
+    val url = "https://maps.googleapis.com/maps/api/directions/json?" +
+            "origin=${origin.latitude},${origin.longitude}" +
+            "&destination=${destination.latitude},${destination.longitude}" +
+            "&mode=walking" +
+            "&key=$apiKey"
     val result = mutableListOf<LatLng>()
 
     withContext(Dispatchers.IO) {
