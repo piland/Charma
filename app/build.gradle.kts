@@ -81,7 +81,9 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.core);
     implementation(libs.androidx.lifecycle.viewmodel.compose.v287)
-
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.play.services.auth)
 
     runtimeOnly(libs.duo.client)
 }
