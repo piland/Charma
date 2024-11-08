@@ -19,7 +19,10 @@ lifecycleViewmodelCompose = "2.9.0-alpha06"
 lifecycleViewmodelComposeVersion = "2.8.7"
 loggingInterceptor = "4.12.0"
 mapsComposeVersion = "2.11.2"
+mapsComposeWidgets = "6.2.1"
 okhttp = "4.12.0"
+places = "4.0.0"
+playServicesLocation = "21.3.0"
 playServicesMapsVersion = "19.0.0"
 googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
@@ -52,7 +55,10 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
 maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "mapsComposeVersion" }
+maps-compose-widgets = { module = "com.google.maps.android:maps-compose-widgets", version.ref = "mapsComposeWidgets" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+places = { module = "com.google.android.libraries.places:places", version.ref = "places" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMapsVersion" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }

@@ -66,6 +66,8 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.crashlytics.buildtools)
+    implementation (libs.play.services.location)
+    implementation(libs.places)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -79,9 +81,9 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
-    implementation(libs.core);
+    implementation(libs.core)
     implementation(libs.androidx.lifecycle.viewmodel.compose.v287)
-
+    implementation(libs.maps.compose.widgets)
 
     runtimeOnly(libs.duo.client)
 }
