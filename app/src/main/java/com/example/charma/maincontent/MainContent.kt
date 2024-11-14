@@ -50,12 +50,15 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.layout.ContentScale
+import com.example.charma.ui.components.ArticleListPopup
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.libraries.places.api.Places
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.example.charma.emergencyservice.EmergencyOptions
+import com.example.charma.mapfeatures.WeatherWidget
 
 // Data classes for FavoritePlace and SelectedPlaceData
 data class FavoritePlace(
@@ -324,6 +327,13 @@ fun MainContent(name: String, modifier: Modifier = Modifier) {
                 .padding(top = 80.dp, start = 16.dp)
         ) {
             WeatherWidget(latitude = 35.227085, longitude = -80.843124)
+
+            Column (
+                modifier = Modifier
+                    .padding(top = 80.dp, start = 16.dp)
+            ){
+                ArticleListPopup()
+            }
         }
     }
 }
@@ -351,46 +361,6 @@ fun getUserLocation(
         },
         Looper.getMainLooper()
     )
-}
-
-@Composable
-fun EmergencyOptions() {
-    val context = LocalContext.current
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Button(
-            onClick = {
-                val callIntent = Intent(Intent.ACTION_DIAL)
-                callIntent.data = Uri.parse("tel:911")
-                context.startActivity(callIntent)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
-        ) {
-            Text("Call 911")
-        }
-
-        Button(
-            onClick = {
-                val callIntent = Intent(Intent.ACTION_DIAL)
-                callIntent.data = Uri.parse("tel:7046872200")
-                context.startActivity(callIntent)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = UNCCGreen)
-        ) {
-            Text("Call Campus Police")
-        }
-    }
 }
 
 @Composable
@@ -478,74 +448,6 @@ fun FavoritesList(favorites: List<FavoritePlace>, onFavoriteClick: (FavoritePlac
                     Text(text = favorite.name ?: "Unnamed Place")
                 }
                 Divider()
-            }
-        }
-    }
-}
-
-@Composable
-fun WeatherWidget(latitude: Double, longitude: Double) {
-    var currentTemperature by remember { mutableStateOf<Double?>(null) }
-    var isLoading by remember { mutableStateOf(true) }
-    var errorMessage by remember { mutableStateOf<String?>(null) }
-
-    LaunchedEffect(latitude, longitude) {
-        isLoading = true
-        errorMessage = null
-
-        try {
-            val urlString = "https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&current=temperature_2m&temperature_unit=fahrenheit&timezone=auto&forecast_days=1"
-            val result = withContext(Dispatchers.IO) {
-                val url = URL(urlString)
-                val connection = url.openConnection() as HttpURLConnection
-                connection.requestMethod = "GET"
-                connection.connect()
-
-                if (connection.responseCode == HttpURLConnection.HTTP_OK) {
-                    connection.inputStream.bufferedReader().use { it.readText() }
-                } else {
-                    errorMessage = "Error: ${connection.responseCode}"
-                    null
-                }
-            }
-
-            result?.let {
-                val jsonObject = JsonParser.parseString(it).asJsonObject
-                val current = jsonObject.getAsJsonObject("current")
-                currentTemperature = current.get("temperature_2m").asDouble
-            }
-
-        } catch (e: Exception) {
-            errorMessage = "Exception: ${e.localizedMessage}"
-        }
-
-        isLoading = false
-    }
-
-    Card(
-        modifier = Modifier
-            .width(94.dp)
-            .padding(8.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(8.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            if (isLoading) {
-                CircularProgressIndicator()
-            } else if (errorMessage != null) {
-                Text(text = errorMessage ?: "Unknown error", color = Color.Red)
-            } else if (currentTemperature != null) {
-                Text(
-                    text = "$currentTemperature°F",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = UNCCGreen,
-                    fontSize = 15.sp
-                )
-            } else {
-                Text(text = "No current weather data available", color = Color.Red)
             }
         }
     }

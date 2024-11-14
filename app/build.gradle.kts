@@ -87,6 +87,12 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.play.services.auth)
     implementation(libs.maps.compose.widgets)
+    implementation(libs.jsoup.jsoup)
+    implementation(libs.material3)
+    implementation(libs.ui)
+    implementation(libs.ui.tooling.preview)
+    implementation(libs.androidx.runtime)
+    implementation(libs.androidx.foundation)
 
     runtimeOnly(libs.duo.client)
 }
