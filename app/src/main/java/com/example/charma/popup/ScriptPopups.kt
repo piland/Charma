@@ -1,4 +1,4 @@
-package com.example.charma.ui.components
+package com.example.charma.popup
 
 import android.content.Context
 import android.content.Intent
@@ -27,7 +27,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.example.charma.R
 import com.example.charma.scripts.Article
-import com.example.charma.scripts.Scraper
+import com.example.charma.scripts.ArticleScraper
+import com.example.charma.scripts.Event
+import com.example.charma.scripts.EventScraper
 import com.example.charma.ui.theme.NinerGold
 import com.example.charma.ui.theme.UNCCGreen
 import kotlinx.coroutines.Dispatchers
@@ -43,7 +45,7 @@ fun ArticleListPopup() {
     // Fetch articles in the background
     LaunchedEffect(Unit) {
         scope.launch(Dispatchers.IO) {
-            articles = Scraper.scrapeArticles()
+            articles = ArticleScraper.scrapeArticles()
         }
     }
 
@@ -132,6 +134,118 @@ fun ArticleCard(article: Article) {
 
         Text(
             text = article.excerpt,
+            style = MaterialTheme.typography.bodyMedium // equivalent to body1
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Text(
+            text = "Read more",
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.labelMedium // new style for emphasis
+        )
+    }
+}
+
+
+@Composable
+fun EventListPopup() {
+    var showDialog by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+    var events by remember { mutableStateOf<List<Event>>(emptyList()) }
+    val state = rememberScrollState()
+
+    // Fetch articles in the background
+    LaunchedEffect(Unit) {
+        scope.launch(Dispatchers.IO) {
+            events = EventScraper.scrapeEvents()
+        }
+    }
+
+    //TODO - Fix the Newspaper Icon
+    // Newspaper Icon
+    IconButton(onClick = { showDialog = true }) {
+        Icon(
+            painter = painterResource(id = R.drawable.greennews), // Replace with your icon resource
+            contentDescription = "News",
+        )
+    }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        buildAnnotatedString {
+                            withStyle(style = SpanStyle(color = NinerGold, fontWeight = FontWeight.Bold)) {
+                                append("N")
+                            }
+                            withStyle(style = SpanStyle(color = UNCCGreen, fontWeight = FontWeight.Bold)) {
+                                append("iner ")
+                            }
+                            withStyle(style = SpanStyle(color = NinerGold, fontWeight = FontWeight.Bold)) {
+                                append("E")
+                            }
+                            withStyle(style = SpanStyle(color = UNCCGreen, fontWeight = FontWeight.Bold)) {
+                                append("vents")
+                            }
+                        }
+                    )
+                }
+            },
+            text = {
+                if (events.isNotEmpty()) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxHeight(0.7f)
+                            .verticalScroll(state)
+                    ) {
+                        events.forEach { event ->
+                            EventCard(event = event)
+                            HorizontalDivider(thickness = 0.5.dp, color = Color.Gray)
+                        }
+                    }
+                } else {
+                    Text("Loading articles...")
+                }
+            },
+            confirmButton = {
+                Button(onClick = { showDialog = false }) {
+                    Text("Close")
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun EventCard(event: Event) {
+    val context = LocalContext.current
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable { openUrl(context, event.url) }
+    ) {
+        // Use Material 3 typography styles
+        Text(
+            text = event.title,
+            style = MaterialTheme.typography.titleMedium // equivalent to h6
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Text(
+            text = event.date,
+            style = MaterialTheme.typography.labelSmall, // equivalent to body2
+            color = Color.Gray
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = event.location,
             style = MaterialTheme.typography.bodyMedium // equivalent to body1
         )
         Spacer(modifier = Modifier.height(4.dp))

@@ -6,7 +6,7 @@ import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import java.io.IOException
 
-object Scraper {
+object ArticleScraper {
     fun scrapeArticles(): List<Article> {
         val articles = mutableListOf<Article>()
         try {

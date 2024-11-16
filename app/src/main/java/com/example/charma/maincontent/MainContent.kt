@@ -1,8 +1,6 @@
 import android.Manifest
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Looper
@@ -23,7 +21,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.charma.R
 import com.example.charma.ui.theme.CharmaTheme
 import com.example.charma.ui.theme.UNCCGreen
@@ -36,7 +33,6 @@ import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.rememberCameraPositionState
-import com.google.gson.JsonParser
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.Polyline
 import java.net.HttpURLConnection
@@ -50,7 +46,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.layout.ContentScale
-import com.example.charma.ui.components.ArticleListPopup
+import com.example.charma.popup.ArticleListPopup
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -59,6 +55,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.example.charma.emergencyservice.EmergencyOptions
 import com.example.charma.mapfeatures.WeatherWidget
+import com.example.charma.popup.EventListPopup
 
 // Data classes for FavoritePlace and SelectedPlaceData
 data class FavoritePlace(
@@ -333,6 +330,11 @@ fun MainContent(name: String, modifier: Modifier = Modifier) {
                     .padding(top = 80.dp, start = 16.dp)
             ){
                 ArticleListPopup()
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                EventListPopup()
+
             }
         }
     }
