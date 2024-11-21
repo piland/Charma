@@ -56,6 +56,8 @@ import com.google.gson.reflect.TypeToken
 import com.example.charma.emergencyservice.EmergencyOptions
 import com.example.charma.mapfeatures.WeatherWidget
 import com.example.charma.popup.EventListPopup
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.rememberMarkerState
 
 // Data classes for FavoritePlace and SelectedPlaceData
 data class FavoritePlace(
@@ -78,6 +80,7 @@ fun MainContent(name: String, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
     var userLocation by remember { mutableStateOf(LatLng(35.3076, -80.7351)) }
+    val markerState = rememberMarkerState(position = userLocation)
 
     if (!Places.isInitialized()) {
         Places.initialize(context.applicationContext, context.getGoogleApiKey())
@@ -95,6 +98,10 @@ fun MainContent(name: String, modifier: Modifier = Modifier) {
 
     LaunchedEffect(Unit) {
         permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+
+    LaunchedEffect(userLocation) {
+        markerState.position = userLocation
     }
 
     val cameraPositionState = rememberCameraPositionState {
@@ -155,6 +162,12 @@ fun MainContent(name: String, modifier: Modifier = Modifier) {
                     width = 10f
                 )
             }
+
+            Marker(
+                state = markerState,
+                title = "Your Location",
+                snippet = "You are here"
+            )
         }
 
         ScaleBar(
@@ -348,7 +361,7 @@ fun getUserLocation(
     fusedLocationClient.requestLocationUpdates(
         LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            interval = 1000 // Request updates every second if needed
+            interval = 2000
         },
         object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
@@ -356,8 +369,6 @@ fun getUserLocation(
                 if (location != null) {
                     Log.d("Location Update", "Latitude: ${location.latitude}, Longitude: ${location.longitude}")
                     onLocationResult(location)
-                    // Stop updates after getting the current location if not needed continuously
-                    fusedLocationClient.removeLocationUpdates(this)
                 }
             }
         },
@@ -449,7 +460,7 @@ fun FavoritesList(favorites: List<FavoritePlace>, onFavoriteClick: (FavoritePlac
                 TextButton(onClick = { onFavoriteClick(favorite) }) {
                     Text(text = favorite.name ?: "Unnamed Place")
                 }
-                Divider()
+                HorizontalDivider()
             }
         }
     }
