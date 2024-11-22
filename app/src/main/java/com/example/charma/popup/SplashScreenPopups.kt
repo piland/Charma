@@ -3,6 +3,7 @@ package com.example.charma.popup
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +13,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -87,6 +90,7 @@ val UELA = """
     By installing or using CHARMA, you acknowledge that you have read, understood, and agree to be bound by this EULA.
 """.trimIndent()
 
+// TODO: Make it that Register is hidden until the Checkbox is checked
 @Composable
 fun RegisterPopup(onDismissRequest: () -> Unit, onCreateAccount: (String, String) -> Unit) {
     var email by remember { mutableStateOf("") }
@@ -345,8 +349,11 @@ fun ForgotPassword(
     }
 }
 
+// TODO: Add scrollable to UELA and make UI better
 @Composable
 fun UserAgreementPopup(onDismissRequest: () -> Unit) {
+    val state = rememberScrollState()
+
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
             modifier = Modifier
@@ -368,7 +375,9 @@ fun UserAgreementPopup(onDismissRequest: () -> Unit) {
                 Text(
                     text = UELA,
                     fontSize = 14.sp,
-                    textAlign = TextAlign.Start
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier
+                        .verticalScroll(state)
                 )
             }
         }
