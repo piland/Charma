@@ -20,8 +20,6 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
 
 
 <!-- PROJECT LOGO -->
@@ -38,7 +36,7 @@
   </p>
 </div>
 
-
+<hr>
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -61,17 +59,26 @@
   </ol>
 </details>
 
-
+<hr>
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Charma is an android application that provides geographical locations of the University of North Carolina at Charlotte. Charma is capable of route planning across campus to your favorite locations, contacting campus security, finding a restaurant on campus, protecting your data through Multi-Factor Authentication, and more! Charma is a project for ITSC 4155.
+Charma is an android application that provides geographical locations of the University of North Carolina at Charlotte. It provides features such as:
+<ul>
+  <li>Rout planning across campus</li>
+  <li>Contacting campus security</li>
+  <li>Looking at upcoming campus events</li>
+  <li>Looking at recent campus news</li>
+  <li>Saving your favorite locations</li>
+  <li>And more!</li>
+</ul>
 
+This project is developed as part of ITSC-4155
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
+<hr>
 
 ### Built With
 
@@ -89,10 +96,23 @@ Charma is an android application that provides geographical locations of the Uni
 
 To install Charma, from the command line:
 
-```bash
-# Clone Charma Repository
-$ git clone https://github.com/piland/Charma.git
-```
+<ol>
+  <li>
+    ```bash
+    # Clone Charma Repository
+    $ git clone https://github.com/piland/Charma.git
+    ```
+  </li>
+  <li>
+    Open the project in your chosen IDE and configure the required API keys for Firebase and Google Maps
+  </li>
+  <li>For the Google Maps API</li>
+  <ol>
+    <li>If using Android Studio: Go into the AndroidManifest.xml and find the "<meta-data>"</li>
+      <li>There will be an API key value and assign the Google API Key to the android:value variable
+      </li>
+  </ol>
+</ol>
 
 
 ### Prerequisites
