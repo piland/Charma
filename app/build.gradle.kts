@@ -22,6 +22,8 @@ android {
         }
     }
 
+
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -51,6 +53,7 @@ android {
     }
 }
 
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -69,6 +72,9 @@ dependencies {
     implementation (libs.play.services.location)
     implementation(libs.places)
     testImplementation(libs.junit)
+    testImplementation("org.mockito:mockito-core:4.0.0")
+    testImplementation("org.mockito:mockito-inline:4.0.0")
+    testImplementation("org.mockito:kotlin:mockito-kotlin:4.0.0")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -96,5 +102,7 @@ dependencies {
 
     runtimeOnly(libs.duo.client)
 }
+
+
 
 apply(plugin = "com.google.gms.google-services")

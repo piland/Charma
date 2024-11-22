@@ -15,4 +15,5 @@
 local.properties
 /app/api/endpoints/DuoAuth.kt
 /app/google-services.json
+/app/src/main/java/com/example/charma/api/DuoAuth.kt
 /app/src/main/global.env
