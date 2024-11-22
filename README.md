@@ -89,20 +89,17 @@ This project is developed as part of ITSC-4155
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
+<hr>
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
 To install Charma, from the command line:
-
-<ol>
-  <li>
-    ```bash
+```bash
     # Clone Charma Repository
     $ git clone https://github.com/piland/Charma.git
-    ```
-  </li>
+```
+<ol>
   <li>
     Open the project in your chosen IDE and configure the required API keys for Firebase and Google Maps
   </li>
@@ -112,13 +109,19 @@ To install Charma, from the command line:
       <li>There will be an API key value and assign the Google API Key to the android:value variable
       </li>
   </ol>
+  <li>In your Firebase Account Settings:</li>
+      <ul>
+        <li>Find 'Your Apps' and install the google-services.json SDK</li>
+      </ul>
+    <li>Take the downloaded file and move it into the App folder of the Charma project</li>
 </ol>
 
 
 ### Prerequisites
 
 This application was designed for the University of North Carolina Community and all UI is meant to represent the University.
-For Technologies a <a href=https://firebase.google.com/?gad_source=1&gclid=CjwKCAiA9IC6BhA3EiwAsbltOOiuHhMqnbNDX4FDMui7Ubl19utHLkQEueAIRojbvsZ3l8ReKnFERhoCDnMQAvD_BwE&gclsrc=aw.ds>Firebase</a> plan will be necessary and a <a href="https://mapsplatform.google.com/?utm_source=google&utm_medium=cpc&utm_campaign=google_maps_us_pmax_1_general&gad_source=1&gclid=CjwKCAiA9IC6BhA3EiwAsbltODyYbp1yWZF4Bfjous4YyRBBLMcCxSVPWafqU5R3MDSoh6-pHaHSXhoCYlMQAvD_BwE&gclsrc=aw.ds>Google Maps API Key</a>.
+For Technologies:
+<p>You will need a <a href="https://firebase.google.com/">Firebase</a> account and a <a href="https://firebase.google.com/">Google</a> Maps API key.</p>
 
 
 
