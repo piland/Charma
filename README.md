@@ -32,7 +32,7 @@
 <h3 align="center">Charma</h3>
 
   <p align="center">
-    Geographical Service Application for University of North Carolina at Charlotte community
+    Geographical Service Application for University of North Carolina at Charlotte Community
   </p>
 </div>
 
@@ -150,7 +150,7 @@ Trevor Portillo - newtrevord@gmail.com
 <br>
 Wuilmer Velasquez - wuilmervelasquez.93@gmail.com
 <br>
-Matthew McCall - mccallmattatw10@gmail.com
+Matthew McCall - mccallmatthew10@gmail.com
 <br>
 
 Project Link: [github]
