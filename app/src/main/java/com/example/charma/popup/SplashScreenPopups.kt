@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.google.firebase.auth.FirebaseAuth
 import com.example.charma.R
 import com.example.charma.ui.theme.NinerGold
 import com.example.charma.ui.theme.QuartzWhite
@@ -253,11 +254,28 @@ fun RegisterPopup(onDismissRequest: () -> Unit, onCreateAccount: (String, String
     }
 }
 
+fun sendPasswordReset(email: String, onResult: (Boolean, String?) -> Unit) {
+    val auth = FirebaseAuth.getInstance()
+    auth.sendPasswordResetEmail(email)
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                onResult(true, "Password reset email sent.")
+            } else {
+                onResult(false, task.exception?.message)
+            }
+        }
+}
+
 
 @Composable
-fun ForgotPassword(onDismissRequest: () -> Unit) {
+fun ForgotPassword(
+    onDismissRequest: () -> Unit
+) {
+    var email by remember { mutableStateOf("") }
+    var feedbackMessage by remember { mutableStateOf("") }
+    var isLoading by remember { mutableStateOf(false) }
+
     Dialog(onDismissRequest = onDismissRequest) {
-        var email by remember { mutableStateOf("") }
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -265,24 +283,11 @@ fun ForgotPassword(onDismissRequest: () -> Unit) {
                 .padding(16.dp),
             shape = RoundedCornerShape(16.dp),
         ) {
-            val image = painterResource(id = R.drawable.sign)
-
-            // Create image box
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(QuartzWhite)
-            )
-            {
-                Image(
-                    painter = image,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop, //Crop image to fit screen
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .alpha(0.2f)
-                )
-
+            ) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -304,19 +309,36 @@ fun ForgotPassword(onDismissRequest: () -> Unit) {
 
                     Spacer(modifier = Modifier.height(16.dp))
 
+                    if (feedbackMessage.isNotEmpty()) {
+                        Text(
+                            text = feedbackMessage,
+                            fontSize = 12.sp,
+                            color = if (isLoading) UNCCGreen else NinerGold,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                    }
+
                     Button(
                         onClick = {
-                            // Back to Login
+                            if (email.isNotBlank()) {
+                                isLoading = true
+                                feedbackMessage = "Sending reset email..."
+                                sendPasswordReset(email) { success, message ->
+                                    feedbackMessage = message ?: "Unknown error"
+                                    isLoading = false
+                                }
+                            } else {
+                                feedbackMessage = "Email cannot be empty."
+                            }
                         },
                         modifier = Modifier.fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = UNCCGreen
-                        )
-                    )
-                    {
-                        Text(text = "Send reset password email")
+                        ),
+                        enabled = !isLoading
+                    ) {
+                        Text(text = if (isLoading) "Sending..." else "Send reset password email")
                     }
-
                 }
             }
         }
