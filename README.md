@@ -34,7 +34,7 @@
 <h3 align="center">Charma</h3>
 
   <p align="center">
-    Geographical Service Application for UNCC students and faculty
+    Geographical Service Application for University of North Carolina at Charlotte community
   </p>
 </div>
 
@@ -78,7 +78,7 @@ Charma is an android application that provides geographical locations of the Uni
 * Android Studio ...Need to add picture and link
 * Jetpack Compose ...Need to add picture and link
 * Google Maps Api ...Need to add picture and link
-* Duo Api ...Need to add picture and link
+* Firebase ...Need to add picture and link
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -87,7 +87,7 @@ Charma is an android application that provides geographical locations of the Uni
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To install Charma, you'll need Git and Android Studio. Jetpack Compose comes with Android Studio. Frome the command line:
+To install Charma, from the command line:
 
 ```bash
 # Clone Charma Repository
@@ -97,7 +97,8 @@ $ git clone https://github.com/piland/Charma.git
 
 ### Prerequisites
 
-Only people with valid UNCC emails will be able to use this project without any editing to the source code. If you want to use this code for personal use, please...(Will be updated during development)
+This application was designed for the University of North Carolina Community and all UI is meant to represent the University.
+For Technologies a <a href=https://firebase.google.com/?gad_source=1&gclid=CjwKCAiA9IC6BhA3EiwAsbltOOiuHhMqnbNDX4FDMui7Ubl19utHLkQEueAIRojbvsZ3l8ReKnFERhoCDnMQAvD_BwE&gclsrc=aw.ds>Firebase</a> plan will be necessary and a <a href="https://mapsplatform.google.com/?utm_source=google&utm_medium=cpc&utm_campaign=google_maps_us_pmax_1_general&gad_source=1&gclid=CjwKCAiA9IC6BhA3EiwAsbltODyYbp1yWZF4Bfjous4YyRBBLMcCxSVPWafqU5R3MDSoh6-pHaHSXhoCYlMQAvD_BwE&gclsrc=aw.ds>Google Maps API Key</a>.
 
 
 
