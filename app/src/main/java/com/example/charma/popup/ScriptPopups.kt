@@ -166,9 +166,6 @@ fun EventListPopup() {
         }
     }
 
-
-    //TODO - Fix the Newspaper Icon
-    // Newspaper Icon
     IconButton(onClick = { showDialog = true }) {
         Icon(
             painter = painterResource(id = R.drawable.greennews), // Replace with your icon resource
