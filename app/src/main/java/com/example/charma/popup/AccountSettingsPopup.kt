@@ -25,20 +25,60 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AccountSettingsPopup(
     onDismissRequest: () -> Unit,
-    resetEmail: () -> Unit,
-    resetPassword: () -> Unit
+    resetEmail: (String) -> Unit,
+    resetPassword: (String) -> Unit,
+    reportIssue: (String) -> Unit
 ) {
+    // States for input fields
+    val newEmail = remember { mutableStateOf("") }
+    val newPassword = remember { mutableStateOf("") }
+    val issueDescription = remember { mutableStateOf("") }
 
     AlertDialog(
-        onDismissRequest = { onDismissRequest()},
-        title = { Text("Account Settings")},
+        onDismissRequest = { onDismissRequest() },
+        title = { Text("Account Settings") },
         text = {
             Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
-                Button(onClick = { resetEmail() }, modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
+                // Input field for resetting email
+                /*TextField(
+                    value = newEmail.value,
+                    onValueChange = { newEmail.value = it },
+                    placeholder = { Text("Enter new email") },
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+                )*/
+                Button(
+                    onClick = { resetEmail(newEmail.value) },
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+                ) {
                     Text("Reset Email")
                 }
-                Button(onClick = { resetPassword() }, modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
+
+                // Input field for resetting password
+                /*TextField(
+                    value = newPassword.value,
+                    onValueChange = { newPassword.value = it },
+                    placeholder = { Text("Enter new password") },
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+                )*/
+                Button(
+                    onClick = { resetPassword(newPassword.value) },
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+                ) {
                     Text("Reset Password")
+                }
+
+//                 Input field for reporting an issue
+                TextField(
+                    value = issueDescription.value,
+                    onValueChange = { issueDescription.value = it },
+                    placeholder = { Text("Describe the issue") },
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+                )
+                Button(
+                    onClick = { reportIssue(issueDescription.value) },
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+                ) {
+                    Text("Report an Issue")
                 }
             }
         },
@@ -48,7 +88,4 @@ fun AccountSettingsPopup(
             }
         }
     )
-
-
 }
-
