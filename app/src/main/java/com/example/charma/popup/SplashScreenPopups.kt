@@ -3,20 +3,27 @@ package com.example.charma.popup
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -27,17 +34,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.google.firebase.auth.FirebaseAuth
-import com.example.charma.R
 import com.example.charma.ui.theme.NinerGold
 import com.example.charma.ui.theme.QuartzWhite
 import com.example.charma.ui.theme.UNCCGreen
+import com.example.charma.R
 
 val UELA = """
     End User License Agreement (EULA)
@@ -91,7 +103,7 @@ val UELA = """
 fun RegisterPopup(onDismissRequest: () -> Unit, onCreateAccount: (String, String) -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var isEulaAccepted by remember { mutableStateOf(false) }
+    val isEulaAccepted by remember { mutableStateOf(false) }
     var showEulaDialog by remember { mutableStateOf(false) }
 
     Dialog(onDismissRequest = onDismissRequest) {
@@ -155,27 +167,23 @@ fun RegisterPopup(onDismissRequest: () -> Unit, onCreateAccount: (String, String
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
+                    Column(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(vertical = 8.dp)
                     ) {
-                        Checkbox(
-                            checked = isEulaAccepted,
-                            onCheckedChange = { isEulaAccepted = it }
-                        )
 
                         Text(
-                            text = "By selecting Create account, you agree to our",
-                            fontSize = 12.sp,
-                            modifier = Modifier.weight(1f)
-                        )
-
-                        Text(
-                            text = "User Agreement",
-                            color = UNCCGreen,
+                            text = buildAnnotatedString {
+                                append("By selecting Create account, you agree to our ")
+                                pushStringAnnotation(tag = "EULA", annotation = "eula")
+                                withStyle(style = SpanStyle(color = UNCCGreen)) {
+                                    append("User Agreement")
+                                }
+                                pop()
+                            },
                             fontSize = 12.sp,
                             modifier = Modifier
-                                .padding(start = 4.dp)
+                                .fillMaxWidth()
                                 .clickable { showEulaDialog = true }
                         )
                     }
@@ -211,40 +219,37 @@ fun RegisterPopup(onDismissRequest: () -> Unit, onCreateAccount: (String, String
 
     if (showEulaDialog) {
         Dialog(onDismissRequest = { showEulaDialog = false }) {
-            Card(
+            Surface(
+                shape = RoundedCornerShape(8.dp),
+                color = Color.White,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(500.dp)
-                    .padding(16.dp)
+                    .heightIn(max = 500.dp) // Limit the height
             ) {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
                         .padding(16.dp)
+                        .verticalScroll(rememberScrollState()) // Make the content scrollable
                 ) {
                     Text(
-                        text = "User Agreement",
+                        text = "End User License Agreement (EULA)",
+                        fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.padding(bottom = 8.dp)
                     )
-
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Divider()
 
                     Text(
                         text = UELA,
                         fontSize = 14.sp,
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth()
+                        lineHeight = 20.sp
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Button(
                         onClick = { showEulaDialog = false },
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(containerColor = UNCCGreen)
+                        modifier = Modifier.align(Alignment.End)
                     ) {
                         Text("Close")
                     }
@@ -347,6 +352,8 @@ fun ForgotPassword(
 
 @Composable
 fun UserAgreementPopup(onDismissRequest: () -> Unit) {
+    val state = rememberScrollState()
+
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
             modifier = Modifier
@@ -368,7 +375,10 @@ fun UserAgreementPopup(onDismissRequest: () -> Unit) {
                 Text(
                     text = UELA,
                     fontSize = 14.sp,
-                    textAlign = TextAlign.Start
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .verticalScroll(state)
                 )
             }
         }

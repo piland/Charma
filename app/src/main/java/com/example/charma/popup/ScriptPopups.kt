@@ -151,8 +151,13 @@ fun ArticleCard(article: Article) {
 fun EventListPopup() {
     var showDialog by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
-    var events by remember { mutableStateOf<List<Event>>(emptyList()) }
+    var events by remember { mutableStateOf<Set<Event>>(emptySet<Event>()) }
     val state = rememberScrollState()
+    val titles : MutableSet<String> = mutableSetOf()
+
+    for (event in events) {
+        titles.add(event.title)
+    }
 
     // Fetch articles in the background
     LaunchedEffect(Unit) {
@@ -161,8 +166,6 @@ fun EventListPopup() {
         }
     }
 
-    //TODO - Fix the Newspaper Icon
-    // Newspaper Icon
     IconButton(onClick = { showDialog = true }) {
         Icon(
             painter = painterResource(id = R.drawable.greennews), // Replace with your icon resource
@@ -203,9 +206,12 @@ fun EventListPopup() {
                             .fillMaxHeight(0.7f)
                             .verticalScroll(state)
                     ) {
-                        events.forEach { event ->
-                            EventCard(event = event)
-                            HorizontalDivider(thickness = 0.5.dp, color = Color.Gray)
+                        for (event in events) {
+                            if (event.title.isNotEmpty() && titles.contains(event.title)) {
+                                titles.remove(event.title)
+                                EventCard(event = event)
+                                HorizontalDivider(thickness = 0.5.dp, color = Color.Gray)
+                            }
                         }
                     }
                 } else {
