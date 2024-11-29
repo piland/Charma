@@ -50,6 +50,7 @@ import com.example.charma.ui.theme.NinerGold
 import com.example.charma.ui.theme.QuartzWhite
 import com.example.charma.ui.theme.UNCCGreen
 import com.example.charma.R
+import com.example.charma.ui.theme.bahnschriftFamily
 
 val UELA = """
     End User License Agreement (EULA)
@@ -137,7 +138,8 @@ fun RegisterPopup(onDismissRequest: () -> Unit, onCreateAccount: (String, String
                 ) {
                     Text(
                         text = "Please enter your account email",
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        fontFamily = bahnschriftFamily
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -145,7 +147,7 @@ fun RegisterPopup(onDismissRequest: () -> Unit, onCreateAccount: (String, String
                     TextField(
                         value = email,
                         onValueChange = { email = it },
-                        label = { Text("Email") },
+                        label = { Text("Email", fontFamily = bahnschriftFamily) },
                         modifier = Modifier.fillMaxWidth()
                     )
 
@@ -153,7 +155,8 @@ fun RegisterPopup(onDismissRequest: () -> Unit, onCreateAccount: (String, String
 
                     Text(
                         text = "Please enter your password",
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        fontFamily = bahnschriftFamily
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -161,7 +164,7 @@ fun RegisterPopup(onDismissRequest: () -> Unit, onCreateAccount: (String, String
                     TextField(
                         value = password,
                         onValueChange = { password = it },
-                        label = { Text("Password") },
+                        label = { Text("Password", fontFamily = bahnschriftFamily) },
                         modifier = Modifier.fillMaxWidth()
                     )
 
@@ -181,6 +184,7 @@ fun RegisterPopup(onDismissRequest: () -> Unit, onCreateAccount: (String, String
                                 }
                                 pop()
                             },
+                            fontFamily = bahnschriftFamily,
                             fontSize = 12.sp,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -200,7 +204,7 @@ fun RegisterPopup(onDismissRequest: () -> Unit, onCreateAccount: (String, String
                         modifier = Modifier.fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(containerColor = UNCCGreen)
                     ) {
-                        Text(text = "Create Account")
+                        Text(text = "Create Account", fontFamily = bahnschriftFamily)
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -210,7 +214,7 @@ fun RegisterPopup(onDismissRequest: () -> Unit, onCreateAccount: (String, String
                         modifier = Modifier.fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(containerColor = NinerGold)
                     ) {
-                        Text(text = "Back to Log In")
+                        Text(text = "Back to Log In", fontFamily = bahnschriftFamily)
                     }
                 }
             }
@@ -235,23 +239,26 @@ fun RegisterPopup(onDismissRequest: () -> Unit, onCreateAccount: (String, String
                         text = "End User License Agreement (EULA)",
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
-                        modifier = Modifier.padding(bottom = 8.dp)
+                        modifier = Modifier.padding(bottom = 8.dp),
+                        fontFamily = bahnschriftFamily
                     )
                     Divider()
 
                     Text(
                         text = UELA,
                         fontSize = 14.sp,
-                        lineHeight = 20.sp
+                        lineHeight = 20.sp,
+                        fontFamily = bahnschriftFamily
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Button(
                         onClick = { showEulaDialog = false },
-                        modifier = Modifier.align(Alignment.End)
+                        modifier = Modifier.align(Alignment.End),
+                        colors = ButtonDefaults.buttonColors(containerColor = UNCCGreen)
                     ) {
-                        Text("Close")
+                        Text("Close", fontFamily = bahnschriftFamily)
                     }
                 }
             }
@@ -301,7 +308,8 @@ fun ForgotPassword(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Please enter your account email."
+                        text = "Please enter your account email.",
+                        fontFamily = bahnschriftFamily
                     )
                     Spacer(modifier = Modifier.height(8.dp))
 
@@ -342,7 +350,7 @@ fun ForgotPassword(
                         ),
                         enabled = !isLoading
                     ) {
-                        Text(text = if (isLoading) "Sending..." else "Send reset password email")
+                        Text(text = if (isLoading) "Sending..." else "Send reset password email", fontFamily = bahnschriftFamily)
                     }
                 }
             }
