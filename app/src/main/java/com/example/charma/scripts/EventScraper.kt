@@ -7,8 +7,8 @@ import org.jsoup.select.Elements
 import java.io.IOException
 
 object EventScraper {
-    fun scrapeEvents(): List<Event> {
-        val events = mutableListOf<Event>()
+    fun scrapeEvents(): Set<Event> {
+        val events = mutableSetOf<Event>()
         try {
             // Connect to the webpage and parse the document
             val doc: Document = Jsoup.connect("https://campusevents.charlotte.edu/calendar").get()

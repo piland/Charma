@@ -20,8 +20,6 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
 
 
 <!-- PROJECT LOGO -->
@@ -34,11 +32,11 @@
 <h3 align="center">Charma</h3>
 
   <p align="center">
-    Geographical Service Application for UNCC students and faculty
+    Geographical Service Application for University of North Carolina at Charlotte Community
   </p>
 </div>
 
-
+<hr>
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -61,58 +59,85 @@
   </ol>
 </details>
 
-
+<hr>
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Charma is an android application that provides geographical locations of the University of North Carolina at Charlotte. Charma is capable of route planning across campus to your favorite locations, contacting campus security, finding a restaurant on campus, protecting your data through Multi-Factor Authentication, and more! Charma is a project for ITSC 4155.
+Charma is an android application that provides geographical locations of the University of North Carolina at Charlotte. It provides features such as:
+<ul>
+  <li>Rout planning across campus</li>
+  <li>Contacting campus security</li>
+  <li>Looking at upcoming campus events</li>
+  <li>Looking at recent campus news</li>
+  <li>Saving your favorite locations</li>
+  <li>And more!</li>
+</ul>
 
+This project is developed as part of ITSC-4155
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
+<hr>
 
 ### Built With
 
-* Android Studio ...Need to add picture and link
-* Jetpack Compose ...Need to add picture and link
-* Google Maps Api ...Need to add picture and link
-* Duo Api ...Need to add picture and link
+* Android Studio
+* Jetpack Compose
+* Google Maps Api
+* Firebase
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
+<hr>
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To install Charma, you'll need Git and Android Studio. Jetpack Compose comes with Android Studio. Frome the command line:
-
+To install Charma, from the command line:
 ```bash
-# Clone Charma Repository
-$ git clone https://github.com/piland/Charma.git
+    # Clone Charma Repository
+    $ git clone https://github.com/piland/Charma.git
 ```
+<ol>
+  <li>
+    Open the project in your chosen IDE and configure the required API keys for Firebase and Google Maps
+  </li>
+  <li>For the Google Maps API</li>
+  <ol>
+    <li>If using Android Studio: Go into the AndroidManifest.xml and find the "<meta-data>"</li>
+      <li>There will be an API key value and assign the Google API Key to the android:value variable
+      </li>
+  </ol>
+  <li>In your Firebase Account Settings:</li>
+      <ul>
+        <li>Find 'Your Apps' and install the google-services.json SDK</li>
+      </ul>
+    <li>Take the downloaded file and move it into the App folder of the Charma project</li>
+</ol>
 
 
 ### Prerequisites
 
-Only people with valid UNCC emails will be able to use this project without any editing to the source code. If you want to use this code for personal use, please...(Will be updated during development)
+This application was designed for the University of North Carolina Community and all UI is meant to represent the University.
+For Technologies:
+<p>You will need a <a href="https://firebase.google.com/">Firebase</a> account and a <a href="https://firebase.google.com/">Google</a> Maps API key.</p>
 
-
+<hr>
 
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Save Favorite Locations
-- [ ] Multi-Factor Authentication
-- [ ] Contact Campus Security
-- [ ] ... More will be added during development
+- [X] Save Favorite Locations
+- [X] Email Authentication
+- [X] Contact Campus Security
+- [X] Web Scraper
+- [X] Settings
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
+<hr>
 
 <!-- CONTACT -->
 ## Contact
@@ -123,9 +148,9 @@ Jason Lindsey - novasquadcpu@gmail.com
 <br>
 Trevor Portillo - newtrevord@gmail.com
 <br>
-Wuilmer Velasquez - ...
+Wuilmer Velasquez - wuilmervelasquez.93@gmail.com
 <br>
-Matthew McCall - ...
+Matthew McCall - mccallmatthew10@gmail.com
 <br>
 
 Project Link: [github]
@@ -144,7 +169,6 @@ Project Link: [github]
 [android-url]: https://developer.android.com/studio
 [Jetpack Compose-logo]: data:image/png;base64,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
 [compose-url]: https://developer.android.com/compose
-[GoogleMaps-logo]: data:image/png;base64,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
 [GoogleMapsAPI-url]: https://developers.google.com/maps
 [DuoPush-logo]: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTb-YujoN-x75F81CvbrdHG6c-eH82gbfNt6w&s
 [DuoPush-url]: https://duo.com/resources/ebooks/the-multi-factor-authentication-evaluation-guide?utm_source=google&utm_medium=paid_search&utm_campaign=DUO_AMER_NA_GS_Branded_General_T2&utm_content=General&_bt=653430164128&_bk=duo%20push&_bm=e&_bn=g&_bg=146748780197&gad_source=1&gclid=Cj0KCQjwjNS3BhChARIsAOxBM6opBnCeXmgeWUMHVxsLo_jo-ukh8OckqfAi9Xi9rG2CSjekltzcb2kaAv4yEALw_wcB
