@@ -8,6 +8,13 @@ import com.google.firebase.database.FirebaseDatabase
 import com.example.charma.MainActivity
 
 class AuthenticationManager(private val activity: MainActivity) {
+    val firebaseAuth: FirebaseAuth
+        get() = auth
+
+    val firebaseDatabase: DatabaseReference
+        get() = database
+
+
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database: DatabaseReference = FirebaseDatabase.getInstance().reference
 
@@ -56,4 +63,8 @@ class AuthenticationManager(private val activity: MainActivity) {
                 }
             }
     }
+}
+
+fun isValidEmail(email: String): Boolean {
+    return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
