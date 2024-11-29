@@ -9,13 +9,17 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -67,8 +71,14 @@ class MainActivity : ComponentActivity() {
                                 // Show AccountSettingsPopup when clicked
                                 AccountSettingsPopup(
                                     onDismissRequest = { showAccountSettingsPopup = false },
-                                    resetEmail = { resetEmail("user@example.com") }, // Example email
-                                    resetPassword = { resetPassword("user@example.com") }, // Example email
+                                    resetEmail = { currentEmail, currentPassword, newEmail ->
+                                        resetEmail(
+                                            currentEmail,
+                                            currentPassword,
+                                            newEmail
+                                        )// Example email
+                                    },
+                                    resetPassword = { email -> resetPassword(email)}, // Example email
                                     reportIssue = { issueDescription -> reportIssue(issueDescription) }
                                 )
                             }
@@ -116,15 +126,40 @@ class MainActivity : ComponentActivity() {
     }
 
     // Firebase logic to reset email
-    private fun resetEmail(newEmail: String) {
-        // Placeholder Firebase logic for resetting email
-        showToast("Reset email function not implemented.")
+    private fun resetEmail(currentEmail: String, currentPassword: String, newEmail: String) {
+        val auth = authenticationManager.firebaseAuth
+        val user = auth.currentUser
+
+        if(user == null) {
+            showToast("No user currently logged in")
+            return
+        }
+
+        val credential = com.google.firebase.auth.EmailAuthProvider.getCredential(currentEmail, currentPassword)
+        user.reauthenticate(credential)
+            .addOnSuccessListener {
+                user.verifyBeforeUpdateEmail(newEmail)
+                    .addOnSuccessListener {
+                        showToast("Verification email sent to $newEmail. Please verify to complete the update.")
+                    }
+                    .addOnFailureListener{ e ->
+                        showToast("Failed to update email ${e.message}")
+                    }
+            }
+            .addOnFailureListener{ e->
+                showToast("Authentication failed: ${e.message}")
+            }
     }
 
     // Firebase logic to reset password
     private fun resetPassword(email: String) {
-        // Placeholder Firebase logic for resetting password
-        showToast("Reset password function not implemented.")
+        authenticationManager.firebaseAuth.sendPasswordResetEmail(email)
+            .addOnSuccessListener {
+                showToast("Please reset email sent to $email. Check your inbox")
+            }
+            .addOnFailureListener{ e->
+                showToast("Failed to reset email: ${e.message}")
+            }
     }
 
     // Function to report an issue to Firebase
