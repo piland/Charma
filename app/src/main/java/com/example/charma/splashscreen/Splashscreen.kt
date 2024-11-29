@@ -37,6 +37,7 @@ import com.example.charma.popup.RegisterPopup
 import com.example.charma.ui.theme.NinerGold
 import com.example.charma.ui.theme.QuartzWhite
 import com.example.charma.ui.theme.UNCCGreen
+import com.example.charma.ui.theme.bahnschriftFamily
 
 
 // region Login
@@ -79,16 +80,16 @@ fun LoginScreen(onLoginSuccess: (String, String) -> Unit, onRegisterClick: () ->
             Image (
                 painter = painterResource(id = R.drawable.charmalogo),
                 contentDescription = "",
-                modifier = Modifier.size(200.dp),
+                modifier = Modifier.size(300.dp),
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(50.dp))
 
             // Username field
             TextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email") },
+                label = { Text("Email", fontFamily = bahnschriftFamily) },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -98,7 +99,7 @@ fun LoginScreen(onLoginSuccess: (String, String) -> Unit, onRegisterClick: () ->
             TextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") },
+                label = { Text("Password", fontFamily = bahnschriftFamily) },
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = PasswordVisualTransformation()
             )
@@ -119,7 +120,7 @@ fun LoginScreen(onLoginSuccess: (String, String) -> Unit, onRegisterClick: () ->
                     containerColor = UNCCGreen
                 )
             ) {
-                Text(text = "Log In")
+                Text(text = "Log In", fontFamily = bahnschriftFamily)
             }
 
             // Spacer
@@ -136,7 +137,7 @@ fun LoginScreen(onLoginSuccess: (String, String) -> Unit, onRegisterClick: () ->
                     containerColor = NinerGold
                 )
             ) {
-                Text(text = "Create Account")
+                Text(text = "Create Account", fontFamily = bahnschriftFamily)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -146,6 +147,7 @@ fun LoginScreen(onLoginSuccess: (String, String) -> Unit, onRegisterClick: () ->
                     append("Forgot your password?")
                 },
                 style = androidx.compose.ui.text.TextStyle(fontSize = 12.sp),
+                fontFamily = bahnschriftFamily,
                 modifier = Modifier.clickable {
                     showForgotPasswordPopup = true // Show popup when clicked
                 }
