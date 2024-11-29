@@ -9,6 +9,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,7 +32,9 @@ import com.example.charma.scripts.ArticleScraper
 import com.example.charma.scripts.Event
 import com.example.charma.scripts.EventScraper
 import com.example.charma.ui.theme.NinerGold
+import com.example.charma.ui.theme.QuartzWhite
 import com.example.charma.ui.theme.UNCCGreen
+import com.example.charma.ui.theme.bahnschriftFamily
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -101,8 +104,14 @@ fun ArticleListPopup() {
                 }
             },
             confirmButton = {
-                Button(onClick = { showDialog = false }) {
-                    Text("Close")
+                Button(
+                    onClick = { showDialog = false },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = UNCCGreen,
+                        contentColor = QuartzWhite
+                    )
+                    ) {
+                    Text("Close", fontFamily = bahnschriftFamily)
                 }
             }
         )
@@ -215,12 +224,18 @@ fun EventListPopup() {
                         }
                     }
                 } else {
-                    Text("Loading articles...")
+                    Text("Loading articles...", fontFamily = bahnschriftFamily)
                 }
             },
             confirmButton = {
-                Button(onClick = { showDialog = false }) {
-                    Text("Close")
+                Button(
+                    onClick = { showDialog = false },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = UNCCGreen,
+                        contentColor = QuartzWhite
+                    )
+                    ) {
+                    Text("Close", fontFamily = bahnschriftFamily)
                 }
             }
         )

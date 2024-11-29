@@ -7,7 +7,7 @@
         android:bottom="10dp">
         <bitmap
             android:gravity="center"
-            android:src="@drawable/logo2"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo2" />
     </item>
 </layer-list>

@@ -7,6 +7,7 @@ import android.os.Looper
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -56,6 +57,9 @@ import com.google.gson.reflect.TypeToken
 import com.example.charma.emergencyservice.EmergencyOptions
 import com.example.charma.mapfeatures.WeatherWidget
 import com.example.charma.popup.EventListPopup
+import com.example.charma.ui.theme.NinerGold
+import com.example.charma.ui.theme.QuartzWhite
+import com.example.charma.ui.theme.bahnschriftFamily
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberMarkerState
 
@@ -280,44 +284,50 @@ fun MainContent(name: String, modifier: Modifier = Modifier) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Button(
+                    OutlinedButton(
                         onClick = {
                             autocompleteIntent?.let { autocompleteIntentLauncher.launch(it) }
                         },
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 2.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = UNCCGreen
-                        )
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            containerColor = UNCCGreen,
+                            contentColor = QuartzWhite
+                        ),
+                        border = BorderStroke(3.dp, NinerGold)
                     ) {
-                        Text(text = "Search")
+                        Text(text = "Search", fontFamily = bahnschriftFamily)
                     }
 
-                    Button(
+                    OutlinedButton(
                         onClick = { showFavorites = !showFavorites },
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 2.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = UNCCGreen
-                        )
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            containerColor = UNCCGreen,
+                            contentColor = QuartzWhite
+                        ),
+                        border = BorderStroke(3.dp, NinerGold)
                     ) {
-                        Text(text = "Favorites")
+                        Text(text = "Favorites", fontFamily = bahnschriftFamily)
                     }
 
-                    Button(
+                    OutlinedButton(
                         onClick = {
                             showEmergencyOptions = !showEmergencyOptions
                         },
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 2.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Red
-                        )
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            containerColor = Color.Red,
+                            contentColor = QuartzWhite
+                        ),
+                        border = BorderStroke(3.dp, Color.Black)
                     ) {
-                        Text(text = "Emergencies")
+                        Text(text = "Emergencies", fontFamily = bahnschriftFamily)
                     }
                 }
             }
@@ -400,9 +410,9 @@ fun LocationInfoCard(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            Text(text = placeData.name ?: "Unknown Place", style = MaterialTheme.typography.titleMedium)
+            Text(text = placeData.name ?: "Unknown Place", style = MaterialTheme.typography.titleMedium, fontFamily = bahnschriftFamily)
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = placeData.address ?: "No address available", style = MaterialTheme.typography.bodyMedium)
+            Text(text = placeData.address ?: "No address available", style = MaterialTheme.typography.bodyMedium, fontFamily = bahnschriftFamily)
             Spacer(modifier = Modifier.height(8.dp))
 
             Row {
@@ -421,7 +431,7 @@ fun LocationInfoCard(
                         containerColor = if (favorited) Color.Gray else UNCCGreen
                     )
                 ) {
-                    Text(if (favorited) "Remove from Favorites" else "Add to Favorites")
+                    Text(if (favorited) "Remove from Favorites" else "Add to Favorites", fontFamily = bahnschriftFamily)
                 }
 
                 Spacer(modifier = Modifier.width(8.dp))
@@ -433,7 +443,7 @@ fun LocationInfoCard(
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = UNCCGreen)
                 ) {
-                    Text("Get Directions")
+                    Text("Get Directions", fontFamily = bahnschriftFamily)
                 }
             }
         }
@@ -454,7 +464,7 @@ fun FavoritesList(favorites: List<FavoritePlace>, onFavoriteClick: (FavoritePlac
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            Text("Favorites", style = MaterialTheme.typography.titleMedium)
+            Text("Favorites", style = MaterialTheme.typography.titleMedium, fontFamily = bahnschriftFamily)
             Spacer(modifier = Modifier.height(8.dp))
             favorites.forEach { favorite ->
                 TextButton(onClick = { onFavoriteClick(favorite) }) {
